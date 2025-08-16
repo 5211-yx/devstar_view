@@ -1,0 +1,55 @@
+name: CI Pipeline
+ 
+on: [push, pull_request]
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: gitea/runner-images:ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: https://devstar.cn/actions/checkout@v4
+ 
+      - name: 安装依赖
+        working-directory: 
+        run: |
+            npm install
+            npm add -D vitepress
+ 
+      - name: 构建项目
+        working-directory: 
+        run: |
+            chmod +x node_modules/.bin/vitepress
+            npm run docs:build
+ 
+      - name: 构建 Docker 镜像
+        run: |
+          docker build -t mynodeapp:latest .
+ 
+      - name: 登录 Docker Registry 并推送镜像
+        env:
+          DOCKER_REGISTRY_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+          DOCKER_REGISTRY_ADDRESS: crpi-pqfsp88s5zx2zwfq.cn-hangzhou.personal.cr.aliyuncs.com/devstar
+          DOCKER_IMAGE_NAME: devstar_introduction
+        run: |
+          echo "$DOCKER_REGISTRY_PASSWORD" | docker login $DOCKER_REGISTRY_ADDRESS -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
+          docker tag mynodeapp:latest $DOCKER_REGISTRY_ADDRESS/$DOCKER_IMAGE_NAME:latest
+          docker push $DOCKER_REGISTRY_ADDRESS/$DOCKER_IMAGE_NAME:latest
+ 
+      - name: 安装 kubectl
+        run: |
+          curl -LO https://mirrors.ustc.edu.cn/kubernetes/core%3A/stable%3A/v1.28/deb/amd64/kubectl_1.28.0-1.1_amd64.deb
+          sudo dpkg -i kubectl_1.28.0-1.1_amd64.deb          
+ 
+      - name: 配置 kubeconfig
+        env:
+          KUBECONFIG_CONTENT: ${{ secrets.KUBECONFIG_CONTENT }}
+        run: |
+          mkdir -p ~/.kube
+          echo "$KUBECONFIG_CONTENT" | base64 -d > ~/.kube/config          
+ 
+      - name: 部署到 Kubernetes
+        run: |
+          kubectl apply -f /tmp/project/k8s/job.yaml

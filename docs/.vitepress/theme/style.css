@@ -1,0 +1,146 @@
+/* .vitepress/theme/style.css */
+:root {
+  --vp-sidebar-indent: 16px;
+  /* 基础缩进量 */
+}
+
+/* 侧边栏 */
+.VPSidebar {
+  background-color: white !important;
+}
+
+.curtain {
+  background-color: white !important;
+}
+
+/* 首页图片 */
+img.VPImage.image-src {
+  max-width: 500px !important;
+  height: 220px !important;
+  width: 380px !important;
+}
+
+.image-container {
+  /* height: 350px !important; */
+  transform: none !important;
+}
+
+/* 强制覆盖主题默认的Logo尺寸 */
+.VPImage.logo {
+  height: 150px !important;
+  /* 必须用 !important 覆盖主题的 !important */
+  width: 200px !important;
+  /* 固定宽度，防止变形 */
+  /* margin-left: 100px !important; */
+  margin-right: -50px !important;
+  margin-left: -40px !important;
+}
+
+/* home页面title部分 */
+.VPNavBar .title {
+  margin-right: 20px !important;
+}
+
+.VPHero .text {
+  font-size: 50px !important;
+}
+
+/* 移除掉目录之间的分割线 */
+.group {
+  border-top: 0 !important;
+  line-height: 24px !important;
+  padding: 4px 0 !important;
+}
+
+.VPSidebarItem .level-1 .text {
+  /* color: #606770; */
+  /* color: #333333 !important; */
+  font-weight: 700 !important;
+}
+
+
+
+/* 一级菜单 */
+.VPSidebarItem.level-0 {
+  padding-left: 0;
+}
+
+.VPSidebarItem.level-0.is-link {
+  padding-bottom: 0 !important;
+}
+
+/* 展开时 */
+.VPSidebarItem.level-0.collapsible {
+  padding-bottom: 0 !important;
+}
+
+/* 二级菜单 */
+.VPSidebarItem.level-1 {
+  padding-left: var(--vp-sidebar-indent);
+}
+
+/* 三级菜单 */
+.VPSidebarItem.level-2 {
+  padding-left: calc(var(--vp-sidebar-indent) * 2);
+}
+
+/* 箭头图标对齐修正 */
+.VPSidebarItem .indicator {
+  margin-left: auto;
+}
+
+.VPSidebarItem.collapsed.level-0.collapsible.collapsed {
+  padding-bottom: 0 !important;
+}
+
+
+.item {
+  padding: 0px 10px;
+}
+
+/* 侧边栏悬停效果 - 匹配图片风格 */
+.item:hover {
+  background-color: #f5f5f7;
+  /* 浅灰内背景（与图中一致） */
+  color: #3451b2 !important;
+  /* 深蓝文字（#3451b2） */
+  border-radius: 8px;
+  /* 圆角增大（匹配图中圆角） */
+  transition: all 0.3s ease;
+  /* 增强阴影：横向偏移0，纵向偏移4px，模糊12px，扩散2px，透明度0.15 */
+  box-shadow: 10px 4px 12px 2px rgba(0, 0, 0, 0.15);
+  position: relative;
+  /* 确保阴影覆盖周围元素 */
+  z-index: 1;
+  /* 提升层级避免阴影被遮挡 */
+}
+
+h2.text:hover {
+  /* 浅灰内背景（与图中一致） */
+  color: #3451b2 !important;
+}
+
+
+
+
+
+
+/* 实现黑暗模式适配 */
+
+/* 深色模式适配 */
+.dark .VPSidebarItem.collapsed.level-0.collapsible.collapsed:hover {
+  background-color: #2d2d36;
+  /* 深灰内背景 */
+  color: #5a7eff;
+  /* 亮蓝文字 */
+  box-shadow: 0 4px 12px 2px rgba(0, 0, 0, 0.25);
+  /* 深色阴影更强 */
+}
+
+.dark .VPSidebar {
+  background-color: #1b1b1f !important;
+}
+
+.dark .curtain {
+  background-color: #1b1b1f !important;
+}

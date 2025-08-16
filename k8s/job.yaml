@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: todolist-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: todolist
+    spec:
+      restartPolicy: Never   # Job 通常不重启失败的 Pod，可以根据需求改为 OnFailure
+      containers:
+      - name: todolist-container
+        image: crpi-s56ujsdigakae3xq.cn-hangzhou.personal.cr.aliyuncs.com/uniquespace/todolist:latest
+        ports:
+        - containerPort: 3000
